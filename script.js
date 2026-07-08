@@ -596,12 +596,23 @@ window.buildSubmissionPayload = function() {
 };
 
 function initExportButtons() {
-  el("printBtn").addEventListener("click", () => {
-    // Submit before printing (ensure result is stored)
+  el("calcGpaBtn").addEventListener("click", () => {
     (async () => {
-      if (window.submitResult) await window.submitResult({ skipConfirm: true });
-      el("printReport").innerHTML = buildReportHtml();
-      window.print();
+      // Recalculate everything
+      calculateAll();
+      updateDials();
+
+      // Scroll the GPA result into view so the user sees it
+      const dial = el("dialGpa");
+      if (dial) dial.scrollIntoView({ behavior: "smooth", block: "center" });
+
+      // Submit to database
+      if (window.submitResult) {
+        const result = await window.submitResult({ skipConfirm: true });
+        if (result && result.success) {
+          flashNotice("GPA calculated and submitted successfully!", "info");
+        }
+      }
     })();
   });
 
