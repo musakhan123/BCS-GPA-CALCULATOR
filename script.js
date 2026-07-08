@@ -381,7 +381,6 @@ function initSubjectTableEvents() {
       validateMarksInput(target, subj);
     }
     updateRowDisplay(subj);
-    renderResults();
   });
 
   tbody.addEventListener("change", (e) => {
@@ -389,7 +388,6 @@ function initSubjectTableEvents() {
     if (target.dataset.field === "includeInGpa") {
       const subj = subjects.find(s => s.id === target.dataset.id);
       if (subj) subj.includeInGpa = target.checked;
-      renderResults();
     }
   });
 }
@@ -599,8 +597,7 @@ function initExportButtons() {
   // Calculate GPA = submit to database
   el("calcGpaBtn").addEventListener("click", () => {
     (async () => {
-      calculateAll();
-      updateDials();
+      renderResults();
 
       const dial = el("dialGpa");
       if (dial) dial.scrollIntoView({ behavior: "smooth", block: "center" });
