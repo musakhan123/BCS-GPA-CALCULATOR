@@ -24,9 +24,13 @@ alter table public.submissions enable row level security;
 
 -- Policy: allow anonymous inserts (so the public website can submit)
 -- Adjust this according to your security posture.
+-- NOTE: relaxed INSERT policy for easier testing. This allows anonymous
+-- inserts. Replace with a stricter expression (e.g. auth.role() = 'anon')
+-- before deploying to production.
+drop policy if exists allow_anon_insert on public.submissions;
 create policy allow_anon_insert on public.submissions
   for insert
-  with check (auth.role() = 'anon');
+  with check (true);
 
 -- Policy: allow authenticated users to select and delete
 create policy allow_authenticated_select on public.submissions

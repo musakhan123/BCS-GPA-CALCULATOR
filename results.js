@@ -41,6 +41,7 @@ async function loadAndRender() {
   applyFiltersAndRender();
 }
 
+
 function applyFiltersAndRender(){
   const name = el('searchName').value.trim().toLowerCase();
   const roll = el('searchRoll').value.trim().toLowerCase();
@@ -103,6 +104,7 @@ function attachUi(){
   el('exportCsv').addEventListener('click', ()=> exportCsv(currentRows));
   el('exportExcel').addEventListener('click', ()=> exportExcel(currentRows));
   el('exportPdf').addEventListener('click', ()=> exportPdf(currentRows));
+
 }
 
 function exportCsv(rows){

@@ -9,20 +9,11 @@
 <body>
   <header class="top">
     <h1>Submitted Results</h1>
-    <div class="auth-area" id="authArea"></div>
-  </header>
-
-  <!-- Mobile-only banner advising desktop view -->
-  <div id="mobileBanner" class="mobile-banner" role="dialog" aria-live="polite">
-    <div class="mobile-banner-inner">
-      <div class="mobile-banner-text">
-        For the best experience use <strong>Desktop View</strong>.
-        On Android Chrome: open the browser menu and enable "Desktop site".
-        On iOS Safari: tap the Share button and choose "Request Desktop Site".
-      </div>
-      <button id="mobileBannerClose" class="mobile-banner-close" aria-label="Dismiss">Got it</button>
+    <div style="display:flex;gap:8px;align-items:center">
+      <div class="auth-area" id="authArea"></div>
+      <button id="testFetchBtn" style="padding:6px 8px;border-radius:6px;border:1px solid #d0d6dd;background:#fff;cursor:pointer">Test Fetch</button>
     </div>
-  </div>
+  </header>
 
   <main class="container">
     <section class="controls">
@@ -70,18 +61,7 @@
   <script type="module" src="results.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
-  <script>
-  // Mobile banner dismiss logic (persist in localStorage)
-  document.addEventListener('DOMContentLoaded', function(){
-    try{
-      const key = 'hideMobileBanner_v1';
-      const banner = document.getElementById('mobileBanner');
-      const close = document.getElementById('mobileBannerClose');
-      if(!banner || !close) return;
-      if(localStorage.getItem(key) === '1') { banner.style.display='none'; return; }
-      close.addEventListener('click', ()=>{ localStorage.setItem(key,'1'); banner.style.display='none'; });
-    }catch(e){/* ignore */}
-  });
-  </script>
+
+
 </body>
 </html>

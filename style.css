@@ -651,6 +651,8 @@ body{
 }
 
 /* ===================== Responsive ===================== */
+
+/* --- Tablet (≤1024px) --- */
 @media (max-width: 1024px){
   .gpa-layout{
     grid-template-columns: 1fr;
@@ -661,59 +663,195 @@ body{
   }
 }
 
+/* --- Small Tablet / Large Phone (≤720px) --- */
 @media (max-width: 720px){
+  /* Topbar: stack brand + program selector */
+  .topbar-inner{
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+    padding: 14px 16px;
+  }
+  .brand{ justify-content: center; }
+  .brand-mark{ width: 38px; height: 38px; font-size: 22px; }
+  .brand-text h1{ font-size: 17px; }
+  .brand-sub{ font-size: 11.5px; text-align: center; }
+  .program-select{ align-items: stretch; }
+  .program-select select{ width: 100%; font-size: 13.5px; }
+
+  /* Tabs: horizontal scroll instead of wrapping */
+  .tab-navigation{
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    flex-wrap: nowrap;
+    gap: 0;
+    scrollbar-width: none; /* Firefox */
+  }
+  .tab-navigation::-webkit-scrollbar{ display: none; }
+  .tab-btn{
+    padding: 12px 16px;
+    font-size: 13px;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  /* Grids */
   .stats-grid{ grid-template-columns: repeat(2, 1fr); }
-  .stats-compact{ grid-template-columns: 1fr; }
+  .stats-compact{ grid-template-columns: repeat(3, 1fr); gap: 8px; padding: 12px; }
   .field-grid{ grid-template-columns: 1fr; }
   .semester-grid{ grid-template-columns: repeat(2, 1fr); }
   .results-grid{ grid-template-columns: 1fr; }
-  .card{ padding: 18px; }
-  .brand-text h1{ font-size: 17px; }
-  /* Mobile table and dial adjustments */
-  .subject-table{ min-width: 0; }
-  .table-scroll{ margin: 0; }
-  .subject-table th, .subject-table td{ padding: 8px; }
+
+  /* Cards */
+  .card{ padding: 18px 16px; }
+
+  /* Subject table */
+  .subject-table{ min-width: 580px; }
+  .table-scroll{ margin: 0 -4px; }
+
+  /* Buttons: improve touch targets */
+  .btn{ padding: 12px 18px; min-height: 44px; font-size: 14px; }
+  .button-row{ gap: 8px; }
+
+  /* Dials */
   .dial{ width: 80px; height: 80px; }
   .dial-value{ font-size: 18px; }
+
+  /* Quick converter */
+  .quick-convert{ flex-direction: column; gap: 16px; }
+  .quick-convert .field{ max-width: 100%; }
+
+  /* CGPA result */
+  .cgpa-result{ flex-direction: column; text-align: center; gap: 8px; padding: 16px; }
+  .cgpa-result-value{ font-size: 28px; }
 }
 
+/* --- Phone (≤480px) --- */
 @media (max-width: 480px){
+  .wrap{ padding: 16px 12px 36px; }
+
+  /* Tabs */
+  .tab-btn{ padding: 10px 14px; font-size: 12.5px; }
+
+  /* Stats */
+  .stats-compact{ grid-template-columns: repeat(2, 1fr); }
+  .stats-grid{ grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  .stat-num{ font-size: 20px; }
+
+  /* Semester fields */
   .semester-grid{ grid-template-columns: 1fr; }
-  .topbar-inner{ padding: 14px 16px; }
-  .wrap{ padding: 20px 14px 40px; }
-  .stats-compact{ grid-template-columns: 1fr; }
+
+  /* Buttons: full width */
+  .button-row{ flex-direction: column; }
+  .button-row .btn{ width: 100%; justify-content: center; text-align: center; }
+  #tab-gpa .export-section .btn{ flex: unset; width: 100%; }
+
+  /* Inputs: larger touch targets */
+  .cell-input, .cell-select{
+    min-height: 44px;
+    font-size: 15px;
+    padding: 10px 12px;
+  }
+  .field input{
+    min-height: 44px;
+    font-size: 15px;
+    padding: 12px;
+  }
+  .user-name-input{
+    min-height: 44px;
+    font-size: 14px;
+    padding: 10px 12px;
+  }
+
+  /* Subject table: stacked card layout */
   .subject-table{ min-width: 0; }
-  /* Mobile: transform subject table into stacked cards */
+  .table-scroll{ margin: 0; overflow-x: visible; }
   .subject-table thead{ display: none; }
-  .subject-table, .subject-table tbody, .subject-table tr, .subject-table td{ display: block; width: 100%; }
-  .subject-table tr{ margin: 8px 0; padding: 10px; border-radius: 8px; background: var(--surface); border: 1px solid var(--line); box-shadow: none; }
-  .subject-table td{ padding: 8px 10px; display: flex; justify-content: space-between; align-items: center; }
-  .subject-table td::before{ content: attr(data-label); color: var(--muted); font-weight: 600; margin-right: 8px; }
-  .col-subject .subject-name-input{ font-size: 15px; }
-  .col-input .cell-input, .col-credit .cell-input{ max-width: 110px; }
+  .subject-table,
+  .subject-table tbody,
+  .subject-table tr,
+  .subject-table td{
+    display: block;
+    width: 100%;
+  }
+  .subject-table tr{
+    margin: 0 0 10px;
+    padding: 14px;
+    border-radius: var(--radius-md);
+    background: var(--surface);
+    border: 1px solid var(--line);
+    box-shadow: 0 1px 3px rgba(28,35,51,0.04);
+  }
+  .subject-table tr:last-child{ margin-bottom: 0; }
+  .subject-table td{
+    padding: 6px 0;
+    border-bottom: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+  }
+  .subject-table td + td{
+    border-top: 1px solid var(--surface-alt);
+    padding-top: 8px;
+  }
+  .subject-table td::before{
+    content: attr(data-label);
+    color: var(--muted);
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    flex-shrink: 0;
+    min-width: 70px;
+  }
+  /* Subject name input full width in card mode */
+  .col-subject{ flex-direction: column; align-items: stretch; }
+  .col-subject::before{ margin-bottom: 2px; }
+  .col-subject .subject-name-input{ font-size: 15px; font-weight: 600; }
+
+  /* Marks and credit inputs */
+  .col-input .cell-input,
+  .col-credit .cell-input{
+    max-width: 120px;
+    text-align: right;
+  }
+
+  /* Include checkbox */
+  .col-include{ justify-content: space-between; }
+  .include-checkbox{ width: 22px; height: 22px; }
+
+  /* Status badge */
+  .status-badge{ font-size: 11px; padding: 4px 10px; }
+
+  /* GPA display in card */
+  .gpa-display{ font-size: 15px; }
+
+  /* Failed/passed row backgrounds in card mode */
+  .subject-table tbody tr.row-failed{ background: var(--danger-tint); border-color: rgba(184,76,76,0.15); }
+  .subject-table tbody tr.row-passed{ background: var(--success-tint); border-color: rgba(58,125,92,0.15); }
+
+  /* Export section */
+  .export-section{ padding: 12px; }
+  .export-title{ font-size: 15px; }
+  .export-hint{ font-size: 11.5px; }
+
+  /* Card head */
+  .card-head{ flex-direction: column; align-items: flex-start; gap: 10px; }
+  .card-head h2{ font-size: 19px; }
 }
 
-/* Mobile banner advising desktop view */
-.mobile-banner{
-  display:none;
-  position:fixed;
-  left:0; right:0;
-  top:60px;
-  z-index:60;
-  padding:8px 12px;
-  background: #fff7e6;
-  border-bottom: 1px solid #f0dca8;
-  box-shadow: 0 2px 6px rgba(16,24,40,0.06);
+/* --- Very small phone (≤360px) --- */
+@media (max-width: 360px){
+  .wrap{ padding: 12px 8px 32px; }
+  .topbar-inner{ padding: 12px; }
+  .card{ padding: 14px 12px; }
+  .brand-text h1{ font-size: 15px; }
+  .tab-btn{ padding: 10px 12px; font-size: 12px; }
+  .stats-compact{ grid-template-columns: 1fr; }
+  .dial{ width: 70px; height: 70px; }
+  .dial-value{ font-size: 16px; }
 }
-.mobile-banner-inner{ max-width:980px; margin:0 auto; display:flex; align-items:center; justify-content:space-between; gap:12px; }
-.mobile-banner-text{ font-size:13px; color: #5a3e00; }
-.mobile-banner-close{ background:transparent; border:1px solid rgba(0,0,0,0.06); padding:6px 10px; border-radius:6px; cursor:pointer; color:#5a3e00 }
-
-@media (max-width: 720px){
-  .mobile-banner{ display:block; }
-}
-
-
 
 /* ===================== Print ===================== */
 @media print{

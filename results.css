@@ -15,4 +15,22 @@ button.action{padding:6px 8px;border-radius:6px;border:1px solid #d0d6dd;backgro
 .modal.hidden{display:none}
 .modal-inner{background:#fff;padding:18px;border-radius:8px;max-width:900px;width:94%;max-height:90vh;overflow:auto;position:relative}
 .modal-inner .close{position:absolute;right:12px;top:12px}
-@media (max-width:720px){.searches{flex-direction:column}.actions{display:flex;gap:6px}}
+
+/* --- Responsive --- */
+@media (max-width: 720px){
+  .top{ flex-direction: column; gap: 10px; padding: 14px 16px; }
+  .container{ padding: 12px; margin: 12px auto; }
+  .controls{ flex-direction: column; }
+  .searches{ flex-direction: column; }
+  .searches input, .searches select{ width: 100%; min-height: 44px; font-size: 15px; }
+  .actions{ display: flex; gap: 6px; flex-wrap: wrap; }
+  .actions button{ flex: 1; min-height: 44px; font-size: 13px; margin-left: 0; }
+  table{ font-size: 13px; }
+  th, td{ padding: 8px 6px; }
+  .modal-inner{ width: 96%; padding: 14px; margin: 8px; }
+}
+
+@media (max-width: 480px){
+  .actions button{ flex: 1 1 calc(50% - 4px); font-size: 12px; }
+  th, td{ padding: 6px 4px; font-size: 12px; }
+}
