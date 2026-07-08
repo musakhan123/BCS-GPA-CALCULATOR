@@ -26,7 +26,7 @@ alter table public.submissions enable row level security;
 -- Adjust this according to your security posture.
 create policy allow_anon_insert on public.submissions
   for insert
-  using (auth.role() = 'anon');
+  with check (auth.role() = 'anon');
 
 -- Policy: allow authenticated users to select and delete
 create policy allow_authenticated_select on public.submissions

@@ -2,8 +2,8 @@
 // Replace the URL and ANON KEY with your project's values in README instructions.
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
 
-const SUPABASE_URL = 'REPLACE_WITH_YOUR_SUPABASE_URL';
-const SUPABASE_ANON_KEY = 'REPLACE_WITH_YOUR_SUPABASE_ANON_KEY';
+const SUPABASE_URL = 'https://mcwvflsdbdrnsyktxfrv.supabase.co';
+const SUPABASE_ANON_KEY = 'sb_publishable_z0Wa1NLYks0zLaCBgNxGew_rsKGCPl7';
 
 export const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
