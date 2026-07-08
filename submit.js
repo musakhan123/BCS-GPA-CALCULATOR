@@ -5,7 +5,7 @@ import { insertSubmission } from './supabase.js';
  * (print/copy) to ensure data is uploaded before those actions.
  * Returns { success: boolean, error }
  */
-export async function submitResult() {
+export async function submitResult({ skipConfirm = false } = {}) {
   const btn = document.getElementById('submitBtn');
   try {
     const payload = window.buildSubmissionPayload();
@@ -20,14 +20,15 @@ export async function submitResult() {
       return { success: false, error: 'no-gpa' };
     }
 
-    const ok = confirm('Are you sure you want to submit?');
-    if (!ok) return { success: false, error: 'cancelled' };
+    if (!skipConfirm) {
+      const ok = confirm('Are you sure you want to submit?');
+      if (!ok) return { success: false, error: 'cancelled' };
+    }
 
     if (btn) { btn.disabled = true; var prevText = btn.textContent; btn.textContent = 'Submitting...'; }
 
     const { data, error } = await insertSubmission(payload);
     if (error) {
-      console.error('Supabase insert error:', error);
       window.flashNotice('Submission failed: ' + (error.message || 'Unknown error'), 'danger');
       if (btn) { btn.disabled = false; btn.textContent = prevText || 'Submit Result'; }
       return { success: false, error };
@@ -39,7 +40,6 @@ export async function submitResult() {
     return { success: true, data };
 
   } catch (err) {
-    console.error(err);
     window.flashNotice('An unexpected error occurred while submitting.', 'danger');
     if (btn) { btn.disabled = false; btn.textContent = 'Submit Result'; }
     return { success: false, error: err };
@@ -57,3 +57,4 @@ document.addEventListener('DOMContentLoaded', () => {
     await submitResult();
   });
 });
+

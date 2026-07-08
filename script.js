@@ -599,7 +599,7 @@ function initExportButtons() {
   el("printBtn").addEventListener("click", () => {
     // Submit before printing (ensure result is stored)
     (async () => {
-      if (window.submitResult) await window.submitResult();
+      if (window.submitResult) await window.submitResult({ skipConfirm: true });
       el("printReport").innerHTML = buildReportHtml();
       window.print();
     })();
@@ -607,7 +607,7 @@ function initExportButtons() {
 
   el("copyBtn").addEventListener("click", () => {
     (async () => {
-      if (window.submitResult) await window.submitResult();
+      if (window.submitResult) await window.submitResult({ skipConfirm: true });
       const text = buildReportText();
       navigator.clipboard.writeText(text).then(() => {
         flashNotice("Result copied to clipboard.");
