@@ -683,6 +683,14 @@ body{
   .wrap{ padding: 20px 14px 40px; }
   .stats-compact{ grid-template-columns: 1fr; }
   .subject-table{ min-width: 0; }
+  /* Mobile: transform subject table into stacked cards */
+  .subject-table thead{ display: none; }
+  .subject-table, .subject-table tbody, .subject-table tr, .subject-table td{ display: block; width: 100%; }
+  .subject-table tr{ margin: 8px 0; padding: 10px; border-radius: 8px; background: var(--surface); border: 1px solid var(--line); box-shadow: none; }
+  .subject-table td{ padding: 8px 10px; display: flex; justify-content: space-between; align-items: center; }
+  .subject-table td::before{ content: attr(data-label); color: var(--muted); font-weight: 600; margin-right: 8px; }
+  .col-subject .subject-name-input{ font-size: 15px; }
+  .col-input .cell-input, .col-credit .cell-input{ max-width: 110px; }
 }
 
 

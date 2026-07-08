@@ -108,23 +108,23 @@ function renderSubjectTable() {
     applyRowClass(tr, s, gpaInfo);
 
     tr.innerHTML = `
-      <td class="col-subject">
+      <td class="col-subject" data-label="Subject">
         <input class="subject-name-input" data-field="name" data-id="${s.id}" value="${escapeHtml(s.name)}">
       </td>
-      <td class="col-credit">
+      <td class="col-credit" data-label="Credits">
         <input type="number" class="cell-input" data-field="credits" data-id="${s.id}" value="${s.credits}" min="0" step="1">
       </td>
-      <td class="col-input">
+      <td class="col-input" data-label="Marks">
         <input type="number" class="cell-input" data-field="marks" data-id="${s.id}"
                value="${s.marks}" placeholder="0-100" min="0" max="100" step="0.01">
       </td>
-      <td class="col-gpa">
+      <td class="col-gpa" data-label="GPA">
         <span class="gpa-display ${gpaInfo.gpa === null ? 'dash' : ''}">${gpaInfo.gpa === null ? '--' : gpaInfo.gpa.toFixed(2)}</span>
       </td>
-      <td class="col-status">
+      <td class="col-status" data-label="Status">
         ${statusBadge(s.status)}
       </td>
-      <td class="col-include">
+      <td class="col-include" data-label="Include">
         <div class="include-checkbox-wrap">
           <input type="checkbox" class="include-checkbox" data-field="includeInGpa" data-id="${s.id}" ${s.includeInGpa ? "checked" : ""} title="Include this subject in the semester GPA">
         </div>
@@ -597,17 +597,24 @@ window.buildSubmissionPayload = function() {
 
 function initExportButtons() {
   el("printBtn").addEventListener("click", () => {
-    el("printReport").innerHTML = buildReportHtml();
-    window.print();
+    // Submit before printing (ensure result is stored)
+    (async () => {
+      if (window.submitResult) await window.submitResult();
+      el("printReport").innerHTML = buildReportHtml();
+      window.print();
+    })();
   });
 
   el("copyBtn").addEventListener("click", () => {
-    const text = buildReportText();
-    navigator.clipboard.writeText(text).then(() => {
-      flashNotice("Result copied to clipboard.");
-    }).catch(() => {
-      flashNotice("Could not copy automatically — please select and copy manually.", "danger");
-    });
+    (async () => {
+      if (window.submitResult) await window.submitResult();
+      const text = buildReportText();
+      navigator.clipboard.writeText(text).then(() => {
+        flashNotice("Result copied to clipboard.");
+      }).catch(() => {
+        flashNotice("Could not copy automatically — please select and copy manually.", "danger");
+      });
+    })();
   });
 }
 
