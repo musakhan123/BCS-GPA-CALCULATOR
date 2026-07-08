@@ -49,6 +49,18 @@
       </div>
     </div>
 
+    <!-- Student Details -->
+    <div class="field-grid" style="margin-bottom: 24px;">
+      <div class="field">
+        <label for="userName">Your Name</label>
+        <input type="text" id="userName" placeholder="Enter your name" class="user-name-input">
+      </div>
+      <div class="field">
+        <label for="userRoll">Roll Number (optional)</label>
+        <input type="text" id="userRoll" placeholder="Enter roll number" class="user-name-input">
+      </div>
+    </div>
+
     <div class="gpa-layout">
       <!-- Left: Subject Table -->
       <div class="gpa-table-section">
@@ -107,16 +119,6 @@
         <div class="export-section">
           <h3 class="export-title">Export Results</h3>
           <p class="export-hint">Generate a printable report or copy to clipboard.</p>
-          
-          <div class="field">
-            <label for="userName">Your Name</label>
-            <input type="text" id="userName" placeholder="Enter your name" class="user-name-input">
-          </div>
-          <div class="field">
-            <label for="userRoll">Roll Number (optional)</label>
-            <input type="text" id="userRoll" placeholder="Enter roll number" class="user-name-input">
-          </div>
-
           <div class="button-row">
             <button type="button" class="btn btn-secondary" id="printBtn">Print Result</button>
             <button type="button" class="btn btn-ghost" id="copyBtn">Copy Result</button>
