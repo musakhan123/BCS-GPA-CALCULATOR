@@ -597,6 +597,13 @@ function initExportButtons() {
   // Calculate GPA = submit to database
   el("calcGpaBtn").addEventListener("click", () => {
     (async () => {
+      const nameInput = el("userName");
+      if (!nameInput.value.trim()) {
+        flashNotice("Please enter your name before calculating/submitting.", "danger");
+        nameInput.focus();
+        return;
+      }
+
       renderResults();
 
       const dial = el("dialGpa");
