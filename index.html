@@ -10,6 +10,18 @@
 </head>
 <body>
 
+  <!-- Mobile-only banner advising desktop view -->
+  <div id="mobileBanner" class="mobile-banner" role="dialog" aria-live="polite">
+    <div class="mobile-banner-inner">
+      <div class="mobile-banner-text">
+        For the best experience use <strong>Desktop View</strong>.
+        On Android Chrome: open the browser menu and enable "Desktop site".
+        On iOS Safari: tap the Share button and choose "Request Desktop Site".
+      </div>
+      <button id="mobileBannerClose" class="mobile-banner-close" aria-label="Dismiss">Got it</button>
+    </div>
+  </div>
+
 <header class="topbar">
   <div class="topbar-inner">
     <div class="brand">
@@ -237,5 +249,18 @@
 
 <script src="script.js"></script>
 <script type="module" src="submit.js"></script>
+<script>
+// Mobile banner dismiss logic (persist in localStorage)
+document.addEventListener('DOMContentLoaded', function(){
+  try{
+    const key = 'hideMobileBanner_v1';
+    const banner = document.getElementById('mobileBanner');
+    const close = document.getElementById('mobileBannerClose');
+    if(!banner || !close) return;
+    if(localStorage.getItem(key) === '1') { banner.style.display='none'; return; }
+    close.addEventListener('click', ()=>{ localStorage.setItem(key,'1'); banner.style.display='none'; });
+  }catch(e){/* ignore */}
+});
+</script>
 </body>
 </html>
