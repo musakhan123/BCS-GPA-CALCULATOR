@@ -10,6 +10,14 @@ export async function submitResult({ skipConfirm = false } = {}) {
   try {
     const payload = window.buildSubmissionPayload();
 
+    if (!payload.student_name) {
+      window.flashNotice('Please enter your name before calculating/submitting.', 'danger');
+      // Highlight the input field
+      const nameInput = document.getElementById('userName');
+      if (nameInput) nameInput.focus();
+      return { success: false, error: 'no-name' };
+    }
+
     const hasMarks = payload.subjects.some(s => s.marks !== null);
     if (!hasMarks) {
       window.flashNotice('Please enter marks for at least one subject before submitting.', 'danger');
