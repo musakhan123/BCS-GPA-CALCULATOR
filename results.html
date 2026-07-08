@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Submitted Results — Admin</title>
+  <link rel="stylesheet" href="results.css">
+</head>
+<body>
+  <header class="top">
+    <h1>Submitted Results</h1>
+    <div class="auth-area" id="authArea"></div>
+  </header>
+
+  <main class="container">
+    <section class="controls">
+      <div class="searches">
+        <input type="text" id="searchName" placeholder="Search by student name">
+        <input type="text" id="searchRoll" placeholder="Search by roll number">
+        <select id="sortOrder">
+          <option value="desc">Sort: Newest</option>
+          <option value="asc">Sort: Oldest</option>
+        </select>
+      </div>
+      <div class="actions">
+        <button id="exportCsv">Export CSV</button>
+        <button id="exportExcel">Export Excel</button>
+        <button id="exportPdf">Export PDF</button>
+        <button id="refreshBtn">Refresh</button>
+      </div>
+    </section>
+
+    <section id="tableArea" class="table-area">
+      <table id="resultsTable">
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Student Name</th>
+            <th>Roll</th>
+            <th>Program</th>
+            <th>Semester GPA</th>
+            <th>CGPA</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </section>
+
+    <div id="detailModal" class="modal hidden">
+      <div class="modal-inner">
+        <button class="close" id="closeDetail">Close</button>
+        <div id="detailContent"></div>
+      </div>
+    </div>
+  </main>
+
+  <script type="module" src="results.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+</body>
+</html>

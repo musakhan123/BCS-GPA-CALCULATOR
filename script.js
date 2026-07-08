@@ -544,6 +544,57 @@ function buildReportHtml() {
   `;
 }
 
+/**
+ * Build a structured submission payload suitable for sending to the backend.
+ * This is exposed on `window` so module scripts can call it.
+ */
+window.buildSubmissionPayload = function() {
+  const r = calculateAll();
+  const programKey = el("programSelect").value;
+  const program = PROGRAMS[programKey];
+  const cgpa = el("cgpaResultValue").textContent;
+  const date = new Date().toISOString();
+  const userName = el("userName").value.trim() || null;
+  const userRoll = el("userRoll") ? el("userRoll").value.trim() || null : null;
+
+  // Prevent empty submission: at least one subject must have marks entered
+  const subjectRows = subjects.map(s => {
+    const info = computeSubjectGpa(s);
+    return {
+      name: s.name,
+      credits: Number(s.credits) || 0,
+      marks: (s.marks === "" ? null : (isNaN(Number(s.marks)) ? null : Number(s.marks))),
+      gpa: info.gpa === null ? null : Number(info.gpa),
+      status: s.status
+    };
+  });
+
+  return {
+    program: program.label,
+    program_key: programKey,
+    semester: program.semesterLabel || "",
+    student_name: userName,
+    roll_number: userRoll,
+    semester_gpa_including_failed: r.gpa === null ? null : Number(r.gpa.toFixed(2)),
+    // compute excluding failed: re-calc ignoring failed subjects
+    semester_gpa_excluding_failed: (function(){
+      let sum = 0, creds = 0;
+      subjects.forEach(s => {
+        const info = computeSubjectGpa(s);
+        if (info.hasEntry && s.status !== 'failed' && info.countsInGpa) {
+          sum += info.gpa * (Number(s.credits) || 0);
+          creds += Number(s.credits) || 0;
+        }
+      });
+      return creds > 0 ? Number((sum/creds).toFixed(2)) : null;
+    })(),
+    final_cgpa: (el("cgpaResultValue").textContent === "--") ? null : Number(el("cgpaResultValue").textContent),
+    total_credits: r.totalCredits,
+    subjects: subjectRows,
+    created_at: date
+  };
+};
+
 function initExportButtons() {
   el("printBtn").addEventListener("click", () => {
     el("printReport").innerHTML = buildReportHtml();

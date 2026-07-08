@@ -1,0 +1,18 @@
+*{box-sizing:border-box;font-family:Inter,Arial,Helvetica,sans-serif}
+body{margin:0;background:#f7f8fa;color:#111}
+.top{display:flex;align-items:center;justify-content:space-between;padding:18px 20px;background:#fff;border-bottom:1px solid #e6e9ee}
+.container{max-width:1100px;margin:18px auto;padding:16px}
+.controls{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:12px}
+.searches{display:flex;gap:8px}
+.searches input, .searches select{padding:8px;border:1px solid #dfe6ee;border-radius:6px}
+.actions button{margin-left:6px;padding:8px 10px;border-radius:6px;border:1px solid #d0d6dd;background:#fff;cursor:pointer}
+.table-area{overflow:auto;background:#fff;padding:8px;border-radius:8px;border:1px solid #e6e9ee}
+table{width:100%;border-collapse:collapse}
+th,td{padding:10px;border-bottom:1px solid #f1f3f6;text-align:left}
+tr:hover{background:#fbfdff}
+button.action{padding:6px 8px;border-radius:6px;border:1px solid #d0d6dd;background:#fff}
+.modal{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(10,10,10,0.45)}
+.modal.hidden{display:none}
+.modal-inner{background:#fff;padding:18px;border-radius:8px;max-width:900px;width:94%;max-height:90vh;overflow:auto;position:relative}
+.modal-inner .close{position:absolute;right:12px;top:12px}
+@media (max-width:720px){.searches{flex-direction:column}.actions{display:flex;gap:6px}}

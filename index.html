@@ -111,10 +111,15 @@
             <label for="userName">Your Name</label>
             <input type="text" id="userName" placeholder="Enter your name" class="user-name-input">
           </div>
+          <div class="field">
+            <label for="userRoll">Roll Number (optional)</label>
+            <input type="text" id="userRoll" placeholder="Enter roll number" class="user-name-input">
+          </div>
 
           <div class="button-row">
             <button type="button" class="btn btn-primary" id="printBtn">Print Result</button>
             <button type="button" class="btn btn-secondary" id="copyBtn">Copy Result</button>
+            <button type="button" class="btn btn-primary" id="submitBtn" style="background:var(--accent);padding:12px 18px;font-size:15px;">Submit Result</button>
           </div>
         </div>
       </aside>
@@ -231,5 +236,6 @@
 </footer>
 
 <script src="script.js"></script>
+<script type="module" src="submit.js"></script>
 </body>
 </html>
