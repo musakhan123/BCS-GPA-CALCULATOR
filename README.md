@@ -1,3 +1,7 @@
+
+check it out on https://musakhan123.github.io/BCS-GPA-CALCULATOR/
+
+
 # GPA & CGPA Calculator — Supabase Submission Integration
 
 This project is a static GPA & CGPA calculator that now supports submitting calculated results to a Supabase (Postgres) backend and a dedicated Results admin page to view, search, export, and manage submissions.
