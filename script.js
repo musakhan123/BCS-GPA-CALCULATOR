@@ -598,8 +598,12 @@ function initExportButtons() {
   el("calcGpaBtn").addEventListener("click", () => {
     (async () => {
       const nameInput = el("userName");
+      const nameError = el("nameError");
+      
       if (!nameInput.value.trim()) {
-        flashNotice("Please enter your name before calculating/submitting.", "danger");
+        nameInput.classList.add("invalid");
+        if(nameError) nameError.style.display = "block";
+        nameInput.scrollIntoView({ behavior: "smooth", block: "center" });
         nameInput.focus();
         return;
       }
@@ -610,12 +614,16 @@ function initExportButtons() {
       if (dial) dial.scrollIntoView({ behavior: "smooth", block: "center" });
 
       if (window.submitResult) {
-        const result = await window.submitResult({ skipConfirm: true });
-        if (result && result.success) {
-          flashNotice("GPA calculated and submitted successfully!", "info");
-        }
+        await window.submitResult({ skipConfirm: true });
       }
     })();
+  });
+
+  // Clear error state when user types
+  el("userName").addEventListener("input", () => {
+    el("userName").classList.remove("invalid");
+    const nameError = el("nameError");
+    if(nameError) nameError.style.display = "none";
   });
 
   // Print = generate printable report

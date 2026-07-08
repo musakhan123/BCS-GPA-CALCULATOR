@@ -42,8 +42,6 @@ export async function submitResult({ skipConfirm = false } = {}) {
       return { success: false, error };
     }
 
-    window.flashNotice('Result submitted successfully.', 'info');
-
     if (btn) { btn.disabled = false; btn.textContent = prevText || 'Submit Result'; }
     return { success: true, data };
 
