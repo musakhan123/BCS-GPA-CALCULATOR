@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GPA & CGPA Calculator</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <div class="brand">
+      <span class="brand-mark">Σ</span>
+      <div class="brand-text">
+        <h1>GPA &amp; CGPA Calculator</h1>
+        <p class="brand-sub">Semester ledger for degree programs</p>
+      </div>
+    </div>
+    <div class="program-select">
+      <label for="programSelect">Program</label>
+      <select id="programSelect">
+        <option value="cs" selected>BCS — Bachelor of Computer Science</option>
+      </select>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <!-- Notices -->
+  <div id="noticeArea" class="notice-area" aria-live="polite"></div>
+
+  <!-- ===================== TAB NAVIGATION ===================== -->
+  <div class="tab-navigation">
+    <button type="button" class="tab-btn active" data-tab="gpa">GPA Calculator</button>
+    <button type="button" class="tab-btn" data-tab="cgpa">CGPA Calculator</button>
+    <button type="button" class="tab-btn" data-tab="converter">Grade Converter</button>
+  </div>
+
+  <!-- ===================== GPA CALCULATOR ===================== -->
+  <section class="card tab-content active" id="tab-gpa">
+    <div class="card-head">
+      <div>
+        <span class="eyebrow">Semester 4</span>
+        <h2>GPA Calculator</h2>
+      </div>
+    </div>
+
+    <div class="gpa-layout">
+      <!-- Left: Subject Table -->
+      <div class="gpa-table-section">
+        <div class="table-scroll">
+          <table class="subject-table" id="subjectTable">
+            <thead>
+              <tr>
+                <th class="col-subject">Subject</th>
+                <th class="col-credit">Credit Hrs</th>
+                <th class="col-input">Marks</th>
+                <th class="col-gpa">GPA</th>
+                <th class="col-status">Status</th>
+                <th class="col-include">Include in GPA</th>
+              </tr>
+            </thead>
+            <tbody id="subjectTbody">
+              <!-- rows injected by JS -->
+            </tbody>
+          </table>
+        </div>
+
+        <div class="button-row">
+          <button type="button" class="btn btn-ghost" id="resetGpaBtn">Reset GPA</button>
+        </div>
+      </div>
+
+      <!-- Right: GPA Result & Export (Sticky) -->
+      <aside class="gpa-sidebar">
+        <!-- GPA Result -->
+        <div class="results-grid">
+          <div class="result-tile">
+            <div class="dial" id="dialGpa" data-value="0">
+              <svg viewBox="0 0 100 100">
+                <circle class="dial-track" cx="50" cy="50" r="44"></circle>
+                <circle class="dial-fill" id="dialGpaFill" cx="50" cy="50" r="44"></circle>
+              </svg>
+              <span class="dial-value" id="gpaValue">--</span>
+            </div>
+            <p class="result-label">Semester GPA<br><span class="result-sub">Based on subjects marked "Include in GPA"</span></p>
+          </div>
+        </div>
+
+        <!-- Stats (Compact) -->
+        <div class="stats-compact">
+          <div class="stat-item"><span class="stat-label">Completed</span><span class="stat-num" id="statCompleted">0</span></div>
+          <div class="stat-item"><span class="stat-label">Pending</span><span class="stat-num" id="statPending">0</span></div>
+          <div class="stat-item"><span class="stat-label">Failed</span><span class="stat-num" id="statFailed">0</span></div>
+          <div class="stat-item"><span class="stat-label">Comp. Cr</span><span class="stat-num" id="statCompletedCr">0</span></div>
+          <div class="stat-item"><span class="stat-label">Remain. Cr</span><span class="stat-num" id="statRemainingCr">0</span></div>
+          <div class="stat-item"><span class="stat-label">Attempt. Cr</span><span class="stat-num" id="statAttemptedCr">0</span></div>
+          <div class="stat-item"><span class="stat-label">Total Cr</span><span class="stat-num" id="statTotalCr">0</span></div>
+        </div>
+
+        <!-- Export Section -->
+        <div class="export-section">
+          <h3 class="export-title">Export Results</h3>
+          <p class="export-hint">Generate a printable report.</p>
+          
+          <div class="field">
+            <label for="userName">Your Name</label>
+            <input type="text" id="userName" placeholder="Enter your name" class="user-name-input">
+          </div>
+
+          <div class="button-row">
+            <button type="button" class="btn btn-primary" id="printBtn">Print Result</button>
+            <button type="button" class="btn btn-secondary" id="copyBtn">Copy Result</button>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <!-- ===================== CGPA CALCULATOR ===================== -->
+  <section class="card tab-content" id="tab-cgpa">
+    <div class="card-head">
+      <div>
+        <span class="eyebrow">Cumulative</span>
+        <h2>CGPA Calculator</h2>
+      </div>
+    </div>
+
+    <div class="mode-toggle" id="cgpaMethodToggle">
+      <button type="button" class="mode-btn active" data-method="1">I know my CGPA after 3rd semester</button>
+      <button type="button" class="mode-btn" data-method="2">I know GPA of every semester</button>
+    </div>
+
+    <!-- Method 1 -->
+    <div class="cgpa-method" id="method1">
+      <div class="field-grid">
+        <div class="field">
+          <label for="prevCgpa">Previous CGPA (after 3rd semester)</label>
+          <input type="number" id="prevCgpa" step="0.01" min="0" max="4" placeholder="e.g. 3.20">
+        </div>
+        <div class="field">
+          <label for="prevCredits">Previous completed credit hours</label>
+          <input type="number" id="prevCredits" step="1" min="0" value="50">
+        </div>
+        <div class="field">
+          <label for="sem4GpaM1">4th semester GPA</label>
+          <input type="number" id="sem4GpaM1" step="0.01" min="0" max="4" placeholder="auto-filled">
+        </div>
+        <div class="field">
+          <label for="sem4CreditsM1">4th semester credit hours</label>
+          <input type="number" id="sem4CreditsM1" step="1" min="0" value="19">
+        </div>
+      </div>
+    </div>
+
+    <!-- Method 2 -->
+    <div class="cgpa-method hidden" id="method2">
+      <div class="semester-grid">
+        <div class="field">
+          <label for="sem1Gpa">Semester 1 GPA</label>
+          <input type="number" id="sem1Gpa" step="0.01" min="0" max="4" placeholder="0.00">
+          <label class="sub-label" for="sem1Credits">Credit hours</label>
+          <input type="number" id="sem1Credits" step="1" min="0" value="15">
+        </div>
+        <div class="field">
+          <label for="sem2Gpa">Semester 2 GPA</label>
+          <input type="number" id="sem2Gpa" step="0.01" min="0" max="4" placeholder="0.00">
+          <label class="sub-label" for="sem2Credits">Credit hours</label>
+          <input type="number" id="sem2Credits" step="1" min="0" value="17">
+        </div>
+        <div class="field">
+          <label for="sem3Gpa">Semester 3 GPA</label>
+          <input type="number" id="sem3Gpa" step="0.01" min="0" max="4" placeholder="0.00">
+          <label class="sub-label" for="sem3Credits">Credit hours</label>
+          <input type="number" id="sem3Credits" step="1" min="0" value="18">
+        </div>
+        <div class="field">
+          <label for="sem4Gpa">Semester 4 GPA</label>
+          <input type="number" id="sem4Gpa" step="0.01" min="0" max="4" placeholder="auto-filled">
+          <label class="sub-label" for="sem4Credits">Credit hours</label>
+          <input type="number" id="sem4Credits" step="1" min="0" value="19">
+        </div>
+      </div>
+    </div>
+
+    <div class="button-row">
+      <button type="button" class="btn btn-ghost" id="resetCgpaBtn">Reset CGPA</button>
+    </div>
+
+    <div class="cgpa-result">
+      <span class="cgpa-result-label">New CGPA</span>
+      <span class="cgpa-result-value" id="cgpaResultValue">--</span>
+    </div>
+  </section>
+
+  <!-- ===================== QUICK GRADE CONVERTER ===================== -->
+  <section class="card tab-content" id="tab-converter">
+    <div class="card-head">
+      <div>
+        <span class="eyebrow">Reference</span>
+        <h2>Quick Grade Converter</h2>
+      </div>
+    </div>
+    <div class="quick-convert">
+      <div class="field">
+        <label for="quickInput">Marks (0-100)</label>
+        <input type="number" id="quickInput" step="0.01" min="0" max="100" placeholder="Enter marks">
+      </div>
+      <div class="quick-output">
+        <span class="quick-output-label">Converts to</span>
+        <span class="quick-output-value" id="quickOutputValue">--</span>
+      </div>
+    </div>
+    <details class="grading-table-details">
+      <summary>View grading scale</summary>
+      <table class="grading-table" id="gradingTable"></table>
+    </details>
+  </section>
+
+</main>
+
+<!-- Printable report (hidden on screen, shown on print) -->
+<div id="printReport" class="print-report"></div>
+
+<footer class="site-footer">
+  <p>Built for real student use — edit any value, leave subjects blank, results update instantly.</p>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
