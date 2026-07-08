@@ -596,17 +596,15 @@ window.buildSubmissionPayload = function() {
 };
 
 function initExportButtons() {
+  // Calculate GPA = submit to database
   el("calcGpaBtn").addEventListener("click", () => {
     (async () => {
-      // Recalculate everything
       calculateAll();
       updateDials();
 
-      // Scroll the GPA result into view so the user sees it
       const dial = el("dialGpa");
       if (dial) dial.scrollIntoView({ behavior: "smooth", block: "center" });
 
-      // Submit to database
       if (window.submitResult) {
         const result = await window.submitResult({ skipConfirm: true });
         if (result && result.success) {
@@ -616,16 +614,20 @@ function initExportButtons() {
     })();
   });
 
+  // Print = generate printable report
+  el("printBtn").addEventListener("click", () => {
+    el("printReport").innerHTML = buildReportHtml();
+    window.print();
+  });
+
+  // Copy = copy text to clipboard
   el("copyBtn").addEventListener("click", () => {
-    (async () => {
-      if (window.submitResult) await window.submitResult({ skipConfirm: true });
-      const text = buildReportText();
-      navigator.clipboard.writeText(text).then(() => {
-        flashNotice("Result copied to clipboard.");
-      }).catch(() => {
-        flashNotice("Could not copy automatically — please select and copy manually.", "danger");
-      });
-    })();
+    const text = buildReportText();
+    navigator.clipboard.writeText(text).then(() => {
+      flashNotice("Result copied to clipboard.");
+    }).catch(() => {
+      flashNotice("Could not copy automatically — please select and copy manually.", "danger");
+    });
   });
 }
 
